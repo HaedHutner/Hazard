@@ -15,7 +15,7 @@ protected:
 
     GLFWwindow *window;
 
-    std::shared_ptr<GameState> state;
+    std::unique_ptr<GameState> state;
 
     int width = 800, height = 600;
     std::string name = "Default Name";
@@ -27,10 +27,6 @@ protected:
 public:
 
     GLFWwindow *getWindow() const;
-
-    void setState(const std::shared_ptr<GameState> &state);
-
-    const std::shared_ptr<GameState> &getState() const;
 
     double getLastTickDuration() const;
 

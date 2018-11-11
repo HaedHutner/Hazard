@@ -10,32 +10,36 @@
 #include <glm/glm.hpp>
 
 static const GLuint _VERTEX_POSITION_LOCATION = 0;
-static const GLuint _VERTEX_MATERIAL_LOCATION = 1;
+static const GLuint _VERTEX_UV_LOCATION = 1;
+static const GLuint _VERTEX_NORMAL_LOCATION = 2;
 
 struct Vertex {
 
     glm::vec3 position;
-    GLuint material;
+    glm::vec2 uv;
+    glm::vec3 normal;
 
-    Vertex(GLfloat x, GLfloat y, GLfloat z, GLuint material) : position({x, y, z}), material(material) {
-
-    }
-
-    Vertex(const glm::vec3 &position, GLuint material) : position(position), material(material) {
+    Vertex(const glm::vec3 &position, const glm::vec2 &uv, const glm::vec3 &normal)
+        : position(position), uv(uv), normal(normal)
+    {
 
     }
 
     static void bindAttributes(GLuint program) {
         glBindAttribLocation(program, _VERTEX_POSITION_LOCATION, "position");
-        glBindAttribLocation(program, _VERTEX_MATERIAL_LOCATION, "material");
+        glBindAttribLocation(program, _VERTEX_UV_LOCATION, "uv");
+        glBindAttribLocation(program, _VERTEX_NORMAL_LOCATION, "normal");
     }
 
     static void fillVertexArrayObject() {
         glEnableVertexAttribArray(_VERTEX_POSITION_LOCATION);
         glVertexAttribPointer(_VERTEX_POSITION_LOCATION, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) 0);
 
-        glEnableVertexAttribArray(_VERTEX_MATERIAL_LOCATION);
-        glVertexAttribIPointer(_VERTEX_MATERIAL_LOCATION, 1, GL_UNSIGNED_INT, sizeof(Vertex), (void *) (3 * sizeof(GLfloat)));
+        glEnableVertexAttribArray(_VERTEX_UV_LOCATION);
+        glVertexAttribIPointer(_VERTEX_UV_LOCATION, 2, GL_FLOAT, sizeof(Vertex), (void *) (3 * sizeof(GLfloat)));
+    
+        glEnableVertexAttribArray(_VERTEX_NORMAL_LOCATION);
+        glVertexAttribIPointer(_VERTEX_NORMAL_LOCATION, 3, GL_FLOAT, sizeof(Vertex), (void *) (5 * sizeof(GLfloat)));
     }
 
 };

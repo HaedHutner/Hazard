@@ -7,6 +7,6 @@ if [ ! -f "bin/Hazard" ]; then
 fi
 
 if [ -f "bin/Hazard" ]; then
-    chmod 777 /bin/Hazard
-    ./Hazard
+    chmod 777 bin/Hazard
+    sudo ./bin/Hazard
 fi

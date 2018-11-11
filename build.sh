@@ -10,5 +10,5 @@ if [ "$1" != "" ] && [ "$1" == "clean" ]; then
     rm -rf *
 fi
 
-cmake ..
+cmake -DCMAKE_BUILD_TYPE=$2 ..
 make

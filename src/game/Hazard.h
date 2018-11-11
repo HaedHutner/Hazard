@@ -2,10 +2,15 @@
 #define HAZARD_H
 
 #include <engine/Game.h>
+#include <engine/Config.h>
+#include <game/state/IdleGameState.h>
 
 class Hazard : public Game
 {
 private:
+
+    Config config;
+
 public:
     Hazard();
     

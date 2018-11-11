@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(PROJECT_NAME Hazard)
 set(PROJECT_VERSION 0.1)
 set(PROJECT_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
-set(PROJECT_SHADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/res/shader)
+set(PROJECT_RESOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/res)
 set(PROJECT_LIB ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(PROJECT_BIN ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
@@ -17,6 +17,8 @@ add_executable(
         src/Main.cpp
         src/engine/Camera.cpp
         src/engine/Camera.h
+        src/engine/Config.h
+        src/engine/Config.cpp
         src/engine/Game.cpp
         src/engine/Game.h
         src/engine/GameState.h
@@ -30,6 +32,9 @@ add_executable(
         src/engine/Keyboard.cpp
         src/engine/Keyboard.h
         src/game/Hazard.h
+        src/game/Hazard.cpp
+        src/game/state/IdleGameState.h
+        src/game/state/IdleGameState.cpp
 )
 
 # GLFW
@@ -56,15 +61,33 @@ target_include_directories("glad" PRIVATE ${GLAD_DIR}/include)
 target_include_directories(${PROJECT_NAME} PRIVATE ${GLAD_DIR}/include)
 target_link_libraries(${PROJECT_NAME} "glad" ${CMAKE_DL_LIBS})
 
-# FastNoise
-# set(FAST_NOISE_DIR ${PROJECT_LIB}/FastNoise)
-# add_library("fastnoise" ${FAST_NOISE_DIR}/FastNoise.h ${FAST_NOISE_DIR}/FastNoise.cpp)
+# Nlohmann/Json
+set(JSON_DIR ${PROJECT_LIB}/json)
 
-# target_include_directories("fastnoise" PRIVATE ${FAST_NOISE_DIR})
-# target_include_directories(${PROJECT_NAME} PRIVATE ${FAST_NOISE_DIR})
-# target_link_libraries(${PROJECT_NAME} "fastnoise" ${CMAKE_DL_LIBS})
+add_library("json" ${JSON_DIR}/single_include/nlohmann/json.hpp)
+
+set_target_properties("json" PROPERTIES LINKER_LANGUAGE CXX)
+
+target_include_directories("json" PRIVATE ${JSON_DIR}/single_include/nlohmann)
+target_include_directories(${PROJECT_NAME} PRIVATE ${JSON_DIR}/single_include/nlohmann)
+target_link_libraries(${PROJECT_NAME} "json" ${CMAKE_DL_LIBS})
+
+# set(JSON_DIR ${PROJECT_LIB}/json)
+# add_library("json" ${JSON_DIR}/single_include/nlohmann/json.hpp)
+
+# target_include_directories("json" PRIVATE ${JSON_DIR}/single_include)
+# target_include_directories(${PROJECT_NAME} PRIVATE ${JSON_DIR}/single_include)
+# target_link_libraries(${PROJECT_NAME} "json" ${CMAKE_DL_LIBS})
+
+# gason
+# set(GASON_DIR ${PROJECT_LIB}/gason)
+# add_library("gason" ${GASON_DIR}/src/gason.cpp ${GASON_DIR}/src/gason.h)
+
+# target_include_directories("gason" PRIVATE ${GASON_DIR}/src)
+# target_include_directories(${PROJECT_NAME} PRIVATE ${GASON_DIR}/src)
+# target_link_libraries(${PROJECT_NAME} "gason" ${CMAKE_DL_LIBS})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SRC_DIR})
 
 # file(REMOVE_RECURSE ${CMAKE_CURRENT_BINARY_DIR}/res)
-file(COPY ${PROJECT_SHADER_DIR} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/res)
+file(COPY ${PROJECT_RESOURCE_DIR} DESTINATION ${PROJECT_BIN})
