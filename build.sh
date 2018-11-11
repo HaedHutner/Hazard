@@ -1,13 +1,11 @@
 #!/bin/bash
 
-if [ "$1" != "" ]; then
-    if [ "$1" == "clean" ]
-        if [ -d "build" ]; then
-            cd build
-            rm -rf *
-        else
-            mkdir build
-        fi
+if [ "$1" != "" ] && [ "$1" == "clean" ]; then
+    if [ -d "build" ]; then
+        cd build
+        rm -rf *
+    else
+        mkdir build
     fi
 else
     if [ -d "build" ]; then
