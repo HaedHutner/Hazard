@@ -16,7 +16,7 @@ private:
 
     json j;
 
-    const json &find(const json &node, std::deque<std::string> path) const;
+    json find(const json &node, std::deque<std::string> path) const;
 
 public:
     Config(const std::string &filePath);
@@ -29,7 +29,7 @@ public:
 
     bool getBool(const std::deque<std::string> &path) const;
 
-    const json &get(const std::deque<std::string> &path) const;
+    json get(const std::deque<std::string> &path) const;
 
     ~Config();
 };

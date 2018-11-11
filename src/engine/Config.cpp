@@ -7,7 +7,7 @@ Config::Config(const std::string &filePath)
     j = json::parse(contents);
 }
 
-const json &Config::find(const json &node, std::deque<std::string> path) const {
+json Config::find(const json &node, std::deque<std::string> path) const {
     auto n = path.front();
     path.pop_front();
 
@@ -18,26 +18,35 @@ const json &Config::find(const json &node, std::deque<std::string> path) const {
         else return node[n];
     }
 
-    return node;
+    return {};
 }
 
 bool Config::getBool(const std::deque<std::string> &path) const {
+    json result = get(path);
+    if ( result.empty() ) return false;
     return get(path).get<bool>();
 }
 
 int Config::getInt(const std::deque<std::string> &path) const {
+    json result = get(path);
+    if ( result.empty() ) return 0;
     return get(path).get<int>();
 }
 
 double Config::getDouble(const std::deque<std::string> &path) const {
+    json result = get(path);
+    if ( result.empty() ) return 0.0;
     return get(path).get<double>();
 }
 
 std::string Config::getString(const std::deque<std::string> &path) const {
+    json result = get(path);
+    if ( result.empty() ) return "";
     return get(path).get<std::string>();
 }
 
-const json &Config::get(const std::deque<std::string> &path) const {
+
+json Config::get(const std::deque<std::string> &path) const {
     return find(j, path);
 }
 

@@ -6,7 +6,7 @@ Hazard::Hazard()
     Game::name = "Hazard";
     printf("Width: %d, Height: %d\n", 
         config.getInt({"window", "width"}), 
-        config.getInt({"window", "height"})
+        config.getInt({"window", "height2"})
     );
     Game::state = std::make_unique<IdleGameState>();
 }
