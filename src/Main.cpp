@@ -1,10 +1,15 @@
 #include <iostream>
-#include <GL/gl.h>
+#include <game/Hazard.h>
 
 int main(int argc, char const *argv[])
 {
-    std::cout << glGetString(GL_VERSION) << "\n";
-    std::cout << "Hello world!" << "\n";
-    /* code */
+    Hazard* hazard = new Hazard();
+    
+    if ( hazard->init() ) {
+        hazard->run();
+    }
+
+    delete hazard;
+
     return 0;
 }

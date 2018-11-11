@@ -8,6 +8,8 @@ set(PROJECT_SHADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/res/shader)
 set(PROJECT_LIB ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(PROJECT_BIN ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BIN})
+
 project(${PROJECT_NAME})
 
 add_executable(
@@ -27,6 +29,7 @@ add_executable(
         src/engine/Renderable.h
         src/engine/Keyboard.cpp
         src/engine/Keyboard.h
+        src/game/Hazard.h
 )
 
 # GLFW
@@ -41,6 +44,10 @@ add_subdirectory(${GLFW_DIR})
 target_include_directories(${PROJECT_NAME} PRIVATE ${GLFW_DIR}/include)
 target_link_libraries(${PROJECT_NAME} glfw ${GLFW_LIBRARIES})
 
+# GLM
+set(GLM_DIR ${PROJECT_LIB}/glm)
+target_include_directories(${PROJECT_NAME} PRIVATE ${GLM_DIR})
+
 # GLAD
 set(GLAD_DIR ${PROJECT_LIB}/glad)
 add_library("glad" ${GLAD_DIR}/src/glad.c)
@@ -49,17 +56,13 @@ target_include_directories("glad" PRIVATE ${GLAD_DIR}/include)
 target_include_directories(${PROJECT_NAME} PRIVATE ${GLAD_DIR}/include)
 target_link_libraries(${PROJECT_NAME} "glad" ${CMAKE_DL_LIBS})
 
-# GLM
-set(GLM_DIR ${PROJECT_LIB}/glm)
-target_include_directories(${PROJECT_NAME} PRIVATE ${GLM_DIR})
-
 # FastNoise
-set(FAST_NOISE_DIR ${PROJECT_LIB}/FastNoise)
-add_library("fastnoise" ${FAST_NOISE_DIR}/FastNoise.h ${FAST_NOISE_DIR}/FastNoise.cpp)
+# set(FAST_NOISE_DIR ${PROJECT_LIB}/FastNoise)
+# add_library("fastnoise" ${FAST_NOISE_DIR}/FastNoise.h ${FAST_NOISE_DIR}/FastNoise.cpp)
 
-target_include_directories("fastnoise" PRIVATE ${FAST_NOISE_DIR})
-target_include_directories(${PROJECT_NAME} PRIVATE ${FAST_NOISE_DIR})
-target_link_libraries(${PROJECT_NAME} "fastnoise" ${CMAKE_DL_LIBS})
+# target_include_directories("fastnoise" PRIVATE ${FAST_NOISE_DIR})
+# target_include_directories(${PROJECT_NAME} PRIVATE ${FAST_NOISE_DIR})
+# target_link_libraries(${PROJECT_NAME} "fastnoise" ${CMAKE_DL_LIBS})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SRC_DIR})
 

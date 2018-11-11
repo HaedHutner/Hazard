@@ -5,10 +5,10 @@
 #include <vector>
 #include <fstream>
 
-#include <glad\glad.h>
+#include <glad/glad.h>
 
-#include <glm\glm.hpp>
-#include <glm\gtc\type_ptr.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "Vertex.hpp"
 
