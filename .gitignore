@@ -1,3 +1,4 @@
 # Ignore the build and bin dirs
 build
 bin
+.vscode
