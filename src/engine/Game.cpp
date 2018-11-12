@@ -4,6 +4,11 @@ GLFWwindow *Game::getWindow() const {
     return window;
 }
 
+void Game::setClearColor(const glm::vec3 &color) {
+    background = color;
+    glClearColor(background.x, background.y, background.z, 0.0f);
+}
+
 bool Game::init() {
     if (!glfwInit()) {
         return false;

@@ -1,6 +1,8 @@
 {
     "window": {
         "width": 800,
-        "height": 600
+        "height": 600,
+        "test": 0.9,
+        "bgcolor": [0.1, 0.6, 0.2]
     }
 }

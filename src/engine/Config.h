@@ -7,6 +7,7 @@
 #include <vector>
 #include <deque>
 
+#include <glm/glm.hpp>
 #include <json.hpp>
 
 using namespace nlohmann;
@@ -21,15 +22,21 @@ private:
 public:
     Config(const std::string &filePath);
 
-    std::string getString(const std::deque<std::string> &path) const;
+    std::string getString(std::deque<std::string> path) const;
 
-    double getDouble(const std::deque<std::string> &path) const;
+    double getDouble(std::deque<std::string> path) const;
 
-    int getInt(const std::deque<std::string> &path) const;
+    int getInt(std::deque<std::string> path) const;
 
-    bool getBool(const std::deque<std::string> &path) const;
+    bool getBool(std::deque<std::string> path) const;
 
-    json get(const std::deque<std::string> &path) const;
+    glm::vec4 getVec4(std::deque<std::string> path) const;
+
+    glm::vec3 getVec3(std::deque<std::string> path) const;
+
+    glm::vec2 getVec2(std::deque<std::string> path) const;
+
+    json get(std::deque<std::string> path) const;
 
     ~Config();
 };

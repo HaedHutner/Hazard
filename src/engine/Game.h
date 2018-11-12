@@ -28,6 +28,8 @@ public:
 
     GLFWwindow *getWindow() const;
 
+    void setClearColor(const glm::vec3 &color);
+
     double getLastTickDuration() const;
 
     virtual bool init();

@@ -3,10 +3,10 @@ if [ ! -d "bin" ]; then
 fi
 
 if [ ! -f "bin/Hazard" ]; then
-    sudo ./build.sh $1
+    ./build.sh $1
 fi
 
 if [ -f "bin/Hazard" ]; then
     chmod 777 bin/Hazard
-    sudo ./bin/Hazard
+    ./bin/Hazard
 fi
