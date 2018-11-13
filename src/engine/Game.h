@@ -8,6 +8,7 @@
 #include <glm/glm.hpp>
 
 #include "GameState.h"
+#include "EventDispatcher.h"
 
 class Game {
 
@@ -16,6 +17,8 @@ protected:
     GLFWwindow *window;
 
     std::unique_ptr<GameState> state;
+
+    EventDispatcher eventDispatcher;
 
     int width = 800, height = 600;
     std::string name = "Default Name";
