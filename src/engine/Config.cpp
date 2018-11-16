@@ -97,6 +97,11 @@ json Config::get(std::deque<std::string> path) const {
     return find(j, path);
 }
 
+template <typename T>
+T Config::get(std::deque<std::string> path) const {
+    return get(path).get<T>();
+}
+
 Config::~Config()
 {
 }

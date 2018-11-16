@@ -7,8 +7,9 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
+#include "event/EventDispatcher.h"
+
 #include "GameState.h"
-#include "EventDispatcher.h"
 
 class Game {
 

@@ -38,6 +38,9 @@ public:
 
     json get(std::deque<std::string> path) const;
 
+    template <typename T>
+    T get(std::deque<std::string> path) const;
+
     ~Config();
 };
 

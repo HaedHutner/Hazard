@@ -19,6 +19,10 @@ Hazard::Hazard()
         color.z
     );
 
+    eventDispatcher.listen<GameStartEvent>([=](const GameStartEvent &event){
+        
+    });
+
     background = color;
 
     state = std::make_unique<IdleGameState>();
