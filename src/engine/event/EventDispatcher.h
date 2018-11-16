@@ -1,19 +1,43 @@
 #ifndef EVENTDISPATCHER_H
 #define EVENTDISPATCHER_H
 
-#include <map>
-#include <algorithm>
+#include <unordered_map>
+#include <vector>
+#include <functional>
+#include <utility>
+
+#include "Event.h"
+
+template <typename EventT, typename std::enable_if<std::is_base_of<Event, EventT>::value>::type* = nullptr>
+using EventListener = std::function<void(EventT&)>;
+
+template <typename EventT, typename std::enable_if<std::is_base_of<Event, EventT>::value>::type* = nullptr>
+using EventListenerMap = std::unordered_map<std::string, std::vector<EventListener<EventT>>>;
 
 class EventDispatcher
 {
 private:
 
+    EventListenerMap<Event> listeners;
+
 public:
     EventDispatcher();
 
-    void post() const;
+    template <typename EventT, typename std::enable_if<std::is_base_of<Event, EventT>::value>::type* = nullptr, typename... ArgT>
+    void post(ArgT&&... args) {
+        EventT event = EventT(args...);
+        for ( auto &handler : listeners[event.getId()] ) {
+            handler(event);
+        }
+    }
 
-    void listen() const;
+    template <typename EventT, typename std::enable_if<std::is_base_of<Event, EventT>::value>::type* = nullptr>
+    void listen(std::string eventId, EventListener<EventT> listener) {
+        // listeners.insert(eventId, listener);
+        // listeners[eventId] = listener;
+        auto &handlers = listeners[eventId];
+        handlers.push_back(listener);
+    }
 
     ~EventDispatcher();
 };

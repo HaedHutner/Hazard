@@ -6,10 +6,6 @@ Event::Event(const std::string &id)
 
 }
 
-Event::Event()
-{
-}
-
 const std::string &Event::getId() const {
     return id;
 }

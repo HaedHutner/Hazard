@@ -19,9 +19,11 @@ Hazard::Hazard()
         color.z
     );
 
-    eventDispatcher.listen<GameStartEvent>([=](const GameStartEvent &event){
-        
+    eventDispatcher.listen<GameStartEvent>("GameStartEvent", [=](GameStartEvent &event){
+        printf("Hello, Game start!");
     });
+
+    eventDispatcher.post<GameStartEvent>(this);
 
     background = color;
 
