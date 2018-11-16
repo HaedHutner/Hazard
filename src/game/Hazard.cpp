@@ -19,7 +19,13 @@ Hazard::Hazard()
         color.z
     );
 
-    eventDispatcher.listen<GameStartEvent>("GameStartEvent", [=](GameStartEvent &event){
+    eventDispatcher >> [=](GameStartEvent &event){
+        printf("Hello, Game start!");
+    };
+
+    const GameStartEvent &afterPost = (eventDispatcher << GameStartEvent(this));
+
+    eventDispatcher.listen<GameStartEvent>("GameStartEvent", [=](Event &event){
         printf("Hello, Game start!");
     });
 
