@@ -5,9 +5,13 @@
 #include <map>
 #include <typeinfo>
 
+#include <engine/Log.h>
+
 #include "Event.h"
 
-using EventMap = std::multimap<const std::type_info*,const std::function<void(Event&)>>;
+using EventHandler = const std::function<void(Event&)>;
+
+using EventMap = std::multimap<const std::string,EventHandler>;
 
 class EventDispatcher
 {
@@ -18,25 +22,28 @@ private:
 public:
     EventDispatcher();
 
-    void operator<<(Event &event) {
-        post(event);
-    }
+    template <typename E, typename... ArgT>
+    void post(ArgT&&... args) {
+        Event event = E(args...);
 
-    template<typename E>
-    void operator>>(const std::function<void(E&)> &listener) {
-        listen(listener);
-    }
+        #ifdef HAZARD_DEBUG
+            log_info("Triggered %s", typeid(E).name());
+        #endif
 
-    void post(Event &event) {
-        auto handlers = EventDispatcher::eventMap.equal_range(&typeid(event));
+        auto handlers = eventMap.equal_range(typeid(E).name());
         for ( auto handler = handlers.first; handler != handlers.second; ++handler ) {
             handler->second(event);
         }
     }
 
-    template<typename E>
-    void listen(const std::function<void(Event&)> &fn) {
-        EventDispatcher::eventMap.emplace(&typeid(E), fn);
+    template <typename E>
+    void listen(EventHandler &fn) {
+
+        #ifdef HAZARD_DEBUG
+            log_info("Registered Listener for %s", typeid(E).name());
+        #endif
+
+        eventMap.emplace(typeid(E).name(), fn);
     }
 
     ~EventDispatcher();

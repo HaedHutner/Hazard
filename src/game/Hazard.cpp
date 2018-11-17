@@ -5,7 +5,7 @@ Hazard::Hazard()
 {
     name = "Hazard";
 
-    printf("Width: %d, Height: %d, Test: %f\n", 
+    log_info("Width: %d, Height: %d, Test: %f", 
         config.getInt({"window", "width"}), 
         config.getInt({"window", "height"}),
         config.getDouble({"window", "test"})
@@ -13,27 +13,17 @@ Hazard::Hazard()
 
     glm::vec3 color = config.getVec3({"window", "bgcolor"});
 
-    printf("x: %f, y: %f, z: %f\n",
+    log_info("x: %f, y: %f, z: %f",
         color.x,
         color.y,
         color.z
     );
 
-    // const std::function<void(GameStartEvent&)> &handler = [=](GameStartEvent &event) {
-    //     printf("Hello, Game start!");
-    // };
-    // eventDispatcher >> handler;
+    eventDispatcher.listen<GameStartEvent>([=](Event &event) {
+        log_info("Game Started.");
+    });
 
-    // GameStartEvent gameStartEvent = GameStartEvent(this);
-    // eventDispatcher << gameStartEvent;
-
-    GameStartEvent gameStartEvent = GameStartEvent(this);
-    const std::function<void(Event&)> handler = [=](Event &event) {
-        printf("Hello, Game start!");
-    };
-
-    eventDispatcher.listen<GameStartEvent>(handler);
-    // eventDispatcher.post(gameStartEvent);
+    eventDispatcher.post<GameStartEvent>(this);
 
     background = color;
 

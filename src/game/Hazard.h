@@ -1,6 +1,7 @@
 #ifndef HAZARD_H
 #define HAZARD_H
 
+#include <engine/Log.h>
 #include <engine/Game.h>
 #include <engine/Config.h>
 #include <engine/event/GameStartEvent.h>
