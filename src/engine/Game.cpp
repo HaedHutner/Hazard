@@ -51,7 +51,10 @@ bool Game::init() {
 void Game::run() {
 
     while (!glfwWindowShouldClose(window)) {
+
         double before = glfwGetTime();
+
+        glfwPollEvents();
 
         processInputs();
         update();
@@ -60,7 +63,8 @@ void Game::run() {
         double after = glfwGetTime();
 
         Game::lastTickDuration = after - before;
-        //printf("Last frame took %dms\n", (int) ( ( after - before ) * 1000 ));
+        log_info("Last frame took %dms", (int) ( ( after - before ) * 1000 ));
+        //printf("Last frame took %dms", (int) ( ( after - before ) * 1000 ));
     }
 
     glfwTerminate();

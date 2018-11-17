@@ -1,4 +1,3 @@
-#include <iostream>
 #include <game/Hazard.h>
 
 int main(int argc, char const *argv[])

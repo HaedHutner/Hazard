@@ -60,6 +60,9 @@ target_include_directories("json" PRIVATE ${JSON_DIR}/single_include/nlohmann)
 target_include_directories(${PROJECT_NAME} PRIVATE ${JSON_DIR}/single_include/nlohmann)
 target_link_libraries(${PROJECT_NAME} "json" ${CMAKE_DL_LIBS})
 
+# FreeType
+set(FREETYPE_DIR ${HAZARD_LIB}/freetype)
+
 # set(JSON_DIR ${HAZARD_LIB}/json)
 # add_library("json" ${JSON_DIR}/single_include/nlohmann/json.hpp)
 

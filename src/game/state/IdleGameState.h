@@ -2,6 +2,7 @@
 #define IDLEGAMESTATE_H
 
 #include <engine/GameState.h>
+#include <engine/Log.h>
 
 class IdleGameState : public GameState
 {
