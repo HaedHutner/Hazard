@@ -13,7 +13,7 @@ class EventDispatcher
 {
 private:
 
-    static EventMap eventMap;
+    EventMap eventMap;
 
 public:
     EventDispatcher();
@@ -35,13 +35,11 @@ public:
     }
 
     template<typename E>
-    void listen(const std::function<void(E&)> &fn) {
+    void listen(const std::function<void(Event&)> &fn) {
         EventDispatcher::eventMap.emplace(&typeid(E), fn);
     }
 
     ~EventDispatcher();
 };
-
-EventMap EventDispatcher::eventMap;
 
 #endif

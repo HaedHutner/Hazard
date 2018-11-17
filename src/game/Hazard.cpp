@@ -28,7 +28,7 @@ Hazard::Hazard()
     // eventDispatcher << gameStartEvent;
 
     GameStartEvent gameStartEvent = GameStartEvent(this);
-    const std::function<void(GameStartEvent&)> &handler = [=](GameStartEvent &event) {
+    const std::function<void(Event&)> handler = [=](Event &event) {
         printf("Hello, Game start!");
     };
 
