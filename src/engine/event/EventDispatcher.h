@@ -7,7 +7,7 @@
 
 #include "Event.h"
 
-using EventMap = std::multimap<const std::type_info*,const std::function<void(Event&)>&>;
+using EventMap = std::multimap<const std::type_info*,const std::function<void(Event&)>>;
 
 class EventDispatcher
 {
