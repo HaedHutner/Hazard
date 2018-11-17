@@ -1,58 +1,47 @@
 #ifndef EVENTDISPATCHER_H
 #define EVENTDISPATCHER_H
 
-#include <unordered_map>
-#include <vector>
 #include <functional>
-#include <utility>
+#include <map>
+#include <typeinfo>
 
 #include "Event.h"
 
-template <typename EventT, typename std::enable_if<std::is_base_of<Event, EventT>::value>::type* = nullptr>
-using EventListener = std::function<void(EventT&)>;
-
-template <typename EventT, typename std::enable_if<std::is_base_of<Event, EventT>::value>::type* = nullptr>
-using EventListenerMap = std::unordered_map<std::string, std::vector<EventListener<EventT>>>;
+using EventMap = std::multimap<const std::type_info*,const std::function<void(Event&)>&>;
 
 class EventDispatcher
 {
 private:
 
-    EventListenerMap<Event> listeners;
+    static EventMap eventMap;
 
 public:
     EventDispatcher();
 
-    template <typename EventT, typename std::enable_if<std::is_base_of<Event, EventT>::value>::type* = nullptr, typename... ArgT>
-    void operator<<(EventT &event) {
+    void operator<<(Event &event) {
         post(event);
     }
 
-    template <typename EventT, typename std::enable_if<std::is_base_of<Event, EventT>::value>::type* = nullptr, typename... ArgT>
-    void operator>>(EventListener<EventT> &listener) {
-
+    template<typename E>
+    void operator>>(const std::function<void(E&)> &listener) {
+        listen(listener);
     }
 
-    template <typename EventT, typename std::enable_if<std::is_base_of<Event, EventT>::value>::type* = nullptr, typename... ArgT>
-    void post(ArgT&&... args) {
-        EventT &event = EventT(args...);
-        post(event);
-    }
-
-    template <typename EventT, typename std::enable_if<std::is_base_of<Event, EventT>::value>::type* = nullptr, typename... ArgT>
-    void post(EventT &event) {
-        for ( auto &handler : listeners[event.getId()] ) {
-            handler(event);
+    void post(Event &event) {
+        auto handlers = EventDispatcher::eventMap.equal_range(&typeid(event));
+        for ( auto handler = handlers.first; handler != handlers.second; ++handler ) {
+            handler->second(event);
         }
     }
 
-    template <typename EventT, typename std::enable_if<std::is_base_of<Event, EventT>::value>::type* = nullptr>
-    void listen(std::string eventId, EventListener<EventT> listener) {
-        auto &handlers = listeners[eventId];
-        handlers.push_back(listener);
+    template<typename E>
+    void listen(const std::function<void(E&)> &fn) {
+        EventDispatcher::eventMap.emplace(&typeid(E), fn);
     }
 
     ~EventDispatcher();
 };
+
+EventMap EventDispatcher::eventMap;
 
 #endif

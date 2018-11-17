@@ -19,17 +19,21 @@ Hazard::Hazard()
         color.z
     );
 
-    eventDispatcher >> [=](GameStartEvent &event){
+    // const std::function<void(GameStartEvent&)> &handler = [=](GameStartEvent &event) {
+    //     printf("Hello, Game start!");
+    // };
+    // eventDispatcher >> handler;
+
+    // GameStartEvent gameStartEvent = GameStartEvent(this);
+    // eventDispatcher << gameStartEvent;
+
+    GameStartEvent gameStartEvent = GameStartEvent(this);
+    const std::function<void(GameStartEvent&)> &handler = [=](GameStartEvent &event) {
         printf("Hello, Game start!");
     };
 
-    const GameStartEvent &afterPost = (eventDispatcher << GameStartEvent(this));
-
-    eventDispatcher.listen<GameStartEvent>("GameStartEvent", [=](Event &event){
-        printf("Hello, Game start!");
-    });
-
-    eventDispatcher.post<GameStartEvent>(this);
+    eventDispatcher.listen<GameStartEvent>(handler);
+    // eventDispatcher.post(gameStartEvent);
 
     background = color;
 
